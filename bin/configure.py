@@ -26,6 +26,9 @@ def read_configuration():
         config = './jabberbot-jira.conf'
     elif os.path.isfile('../conf/jabberbot-jira.conf'):
         config = '../conf/jabberbot-jira.conf'
+    else:
+        print 'Config file not found.  Assuming params were pass from CLI...'
+        return configuration
 
     # load the config file and try to find values
     parser.read(config)

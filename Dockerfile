@@ -8,6 +8,6 @@ ADD bin/* /opt/jabberbot-jira/
 ADD conf/* /opt/jabberbot-jira/conf/
 
 RUN apt-get update && apt-get install -y python-pip
-RUN pip install jabberbot
+RUN pip install jabberbot soappy
 
 CMD ["/opt/jabberbot-jira/jabberbot-jira.py"]
