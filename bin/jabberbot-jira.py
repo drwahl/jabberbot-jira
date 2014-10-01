@@ -5,38 +5,29 @@ from configure import read_configuration
 import SOAPpy
 import os
 
-# make the bot listen in a MUC (multi user chat)
-class MUCJabberBot(JabberBot):
+
+class JiraJabberBot(JabberBot):
 
     def __init__(self, *args, **kwargs):
+        ''' Initialize variables. '''
+
+        # answer only direct messages or not?
         self.only_direct = False
-        super(MUCJabberBot, self).__init__(*args, **kwargs)
+
+        # initialize jabberbot
+        super(JiraJabberBot, self).__init__(*args, **kwargs)
 
 
     def callback_message(self, conn, mess):
+        ''' Changes the behaviour of the JabberBot in order to allow
+        it to answer direct messages. This is used often when it is
+        connected in MUCs (multiple users chatroom). '''
+
         message = mess.getBody()
         if not message:
             return
         else:
-            return super(MUCJabberBot, self).callback_message(conn, mess)
-
-class JiraJabberBot(MUCJabberBot):
-
-    def __init__(self, username=None, password=None, channel=None,
-            nickname=None, jira_server=None, jira_username=None,
-            jira_password=None, jira_regex=None):
-        """
-        Instantiate the jabber bot, setting variables that will be referenced.
-        """
-
-        self.username = username
-        self.password = password
-        self.channel = channel
-        self.nickname = nickname
-        self.jira_server = jira_server
-        self.jira_username = jira_username
-        self.jira_password = jira_password
-        self.jira_regex = jira_regex
+            return super(JiraJabberBot, self).callback_message(conn, mess)
 
 
     def _queryJira(self, jira_server=None, jira_username=None, jira_password=None):
@@ -83,6 +74,8 @@ class JiraJabberBot(MUCJabberBot):
 
 
 
+def config():
+    return read_configuration()
 
 def main():
     """
@@ -92,7 +85,7 @@ def main():
     import argparse
 
     # read configurations from a config file
-    config = read_configuration()
+    conf = config()
 
     # get CLI options
     cmd_parser = argparse.ArgumentParser(
@@ -116,26 +109,25 @@ def main():
     args = cmd_parser.parse_args()
 
     if args.username:
-        config['username'] = args.username
+        conf['username'] = args.username
     if args.password:
-        config['password'] = args.password
+        conf['password'] = args.password
     if args.channel:
-        config['channel'] = args.channel
+        conf['channel'] = args.channel
     if args.nickname:
-        config['nickname'] = args.nickname
+        conf['nickname'] = args.nickname
     if args.jira_server:
-        config['jira_server'] = args.jira_server
+        conf['jira_server'] = args.jira_server
     if args.jira_username:
-        config['jira_username'] = args.jira_username
+        conf['jira_username'] = args.jira_username
     if args.jira_password:
-        config['jira_password'] = args.jira_password
+        conf['jira_password'] = args.jira_password
     if args.jira_regex:
-        config['jira_regex'] = args.jira_regex
+        conf['jira_regex'] = args.jira_regex
 
-    print config
-    #bot = JiraJabberBot(config)
-    #bot.muc_join_room(channel, nickname)
-    #bot.server_forever()
+    bot = JiraJabberBot(conf['username'], conf['password'])
+    bot.join_room(conf['channel'])
+    bot.serve_forever()
 
 if __name__ == "__main__":
     main()
