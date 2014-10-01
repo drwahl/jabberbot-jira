@@ -23,8 +23,8 @@ class MUCJabberBot(JabberBot):
 class JiraJabberBot(MUCJabberBot):
 
     def __init__(self, username=None, password=None, channel=None,
-            jira_server=None, jira_username=None, jira_password=None,
-            jira_regex=None):
+            nickname=None, jira_server=None, jira_username=None,
+            jira_password=None, jira_regex=None):
         """
         Instantiate the jabber bot, setting variables that will be referenced.
         """
@@ -32,6 +32,7 @@ class JiraJabberBot(MUCJabberBot):
         self.username = username
         self.password = password
         self.channel = channel
+        self.nickname = nickname
         self.jira_server = jira_server
         self.jira_username = jira_username
         self.jira_password = jira_password
@@ -102,6 +103,8 @@ def main():
         help='Jabber password for the bot', default=None)
     cmd_parser.add_argument('-c', '--channel', dest='channel', action='store',
         help='Jabber channel (MUC) for the bot to join', default=None)
+    cmd_parser.add_argument('-n', '--nickname', dest='nickname', action='store',
+        help='Jabber nickname (MUC) for the bot', default=None)
     cmd_parser.add_argument('-s', '--jira_server', dest='jira_server', action='store',
         help='Jira server to connect to', default=None)
     cmd_parser.add_argument('-U', '--jira_username', dest='jira_username', action='store',
@@ -118,6 +121,8 @@ def main():
         config['password'] = args.password
     if args.channel:
         config['channel'] = args.channel
+    if args.nickname:
+        config['nickname'] = args.nickname
     if args.jira_server:
         config['jira_server'] = args.jira_server
     if args.jira_username:
@@ -129,6 +134,7 @@ def main():
 
     print config
     #bot = JiraJabberBot(config)
+    #bot.muc_join_room(channel, nickname)
     #bot.server_forever()
 
 if __name__ == "__main__":

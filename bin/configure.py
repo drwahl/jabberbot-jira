@@ -12,6 +12,8 @@ def read_configuration():
     configuration = dict(
         username = None,
         password = None,
+        channel = None,
+        nickname = None,
         jira_server = None,
         jira_username = None,
         jira_password = None,
@@ -38,6 +40,14 @@ def read_configuration():
         pass
     try:
         configuration['password'] = parser.get('default', 'password')
+    except ConfigParser.NoOptionError:
+        pass
+    try:
+        configuration['channel'] = parser.get('default', 'channel')
+    except ConfigParser.NoOptionError:
+        pass
+    try:
+        configuration['nickname'] = parser.get('default', 'nickname')
     except ConfigParser.NoOptionError:
         pass
     try:
