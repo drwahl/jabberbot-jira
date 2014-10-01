@@ -10,10 +10,10 @@ To use docker (read as: build your own docker container), simply modify the
 config file in the conf directory to match your environments configuration and
 then run:
 ```
-docker -t <image_name> .
+docker -t <container_name> .
 ```
-This will create the docker image file.  Then you just need to launch the
+This will create the docker container.  Then you just need to launch the
 container with:
 ```
-docker run <image_name>
+docker run <container_name>
 ```
