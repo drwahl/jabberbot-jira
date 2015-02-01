@@ -1,7 +1,7 @@
 jabberbot-jira
 ==============
 
-A jabberbot-python based bot for Jabber to provide insight into your Jira ticketing system
+A jabberbot-python based bot for Jabber to provide insight into your Jira ticketing system. It provides details about tickets mentioned in chat.
 
 Setup/Usage
 ===========
